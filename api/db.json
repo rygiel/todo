@@ -1,7 +1,15 @@
 {
-  "/api/test": {
+  "/test": {
     "code":200,
-    "response":[]
+    "response":[
+      {"id":"1", "value":"test 1"},
+      {"id":"2", "value":"test 2"},
+      {"id":"3", "value":"test 3"}
+    ]
+  },
+  "/route/:id": {
+    "code":200,
+    "response":{"id":"1", "value":"test 1"}
   }
 
 

@@ -2,7 +2,10 @@
   "name": "app",
   "version": "0.0.0",
   "dependencies": {
-    "grunt-google-cdn": "^0.4.3"
+    "grunt-google-cdn": "^0.4.3",
+    "promise": "^7.1.1",
+    "route-parser": "0.0.5",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "connect-modrewrite": "^0.9.0",

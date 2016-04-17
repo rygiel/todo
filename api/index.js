@@ -1,27 +1,45 @@
 var fs = require('fs');
 var url = require('url');
-//todo: route-parser
+var Route = require('route-parser');
+var _ = require('underscore');
+var Promise = require('promise');
+
 function api(){
-  return function (req, res, next) {
-    if (req.url.indexOf('api') > -1){
 
-      var db = JSON.parse(fs.readFileSync('api/db.json', 'utf8'));
+  var db = JSON.parse(fs.readFileSync('api/db.json', 'utf8'));
+  _.each(db, function(route,key){
+    route.route = new Route(key);
+  });
 
-      var parsed = url.parse(req.url, true);
-      if (db[parsed.pathname]){
-        res.writeHead(db[parsed.pathname].code);
-        res.write(JSON.stringify(db[parsed.pathname].response));
-        res.end();
-        console.log('api - response 200');
-      } else {
-        res.writeHead(404);
-        res.end();
-        console.log('api - response 404');
+  function findResponse(url){
+    var promise = new Promise(function (resolve, reject) {
+
+      var result = {};
+
+      _.each(db, function(route){
+        if (route.route.match(url)){
+          result = route;
+          resolve(result);
+        }
+      });
+
+      if (_.isEmpty(result)){
+        reject();
       }
 
-    } else {
-      next();
-    }
+    });
+    return promise;
+  }
+
+  return function (req, res, next) {
+    var parsedUrl = url.parse(req.url, true);
+    findResponse(parsedUrl.pathname).then(function(route){
+      res.writeHead(route.code);
+      res.write(JSON.stringify(route.response));
+      res.end();
+      console.log(parsedUrl.pathname+' response: '+route.code);
+
+    }, next);
   };
 }
 

@@ -79,7 +79,7 @@ module.exports = function (grunt) {
             return [
 
               apiServer(),
-              require('connect-modrewrite')(['^/api http://localhost:9000/api [P L]']),
+              require('connect-modrewrite')(['^/api http://localhost:9000/ [P L]']),
 
               connect.static('.tmp'),
               connect().use(
