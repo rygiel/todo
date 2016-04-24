@@ -1,16 +1,13 @@
 {
-  "/test": {
+  "/todo": {
     "code":200,
     "response":[
-      {"id":"1", "value":"test 1"},
-      {"id":"2", "value":"test 2"},
-      {"id":"3", "value":"test 3"}
+      {"id":"1", "description":"Take out the trash", "done":"false"},
+      {"id":"2", "description":"Buy bread", "done":"false"},
+      {"id":"3", "description":"Teach penguins to fly", "done":"false"}
     ]
   },
-  "/route/:id": {
-    "code":200,
-    "response":{"id":"1", "value":"test 1"}
+  "/todo/:id":{
+      "collection": "/todo"
   }
-
-
 }
